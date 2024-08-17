@@ -1,7 +1,7 @@
 mod cache;
 mod adaptors;
-mod conn;
-
+pub mod conn;
+pub mod conf;
 
 #[cfg(test)]
 mod tests {
