@@ -35,13 +35,25 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn test_get_pool() {
-        env_logger::init();
-        let pool = get_pool(None).await.unwrap();
+    async fn test_get_pool() -> Result<(), sqlx::Error> {
+        let pool = get_pool(None).await?;
         assert!(
             pool.is_closed() == false,
             "Pool should be open after creation"
         );
+        Ok(())
     }
-   
+  
+    #[tokio::test]
+    async fn test_create_schema() -> Result<(), sqlx::Error>{
+        create_schema("test").await?;
+        let pool = get_pool(Some("test")).await?;
+        assert!(
+            pool.is_closed() == false,
+            "Pool should be open after creation"
+        );
+
+        Ok(())
+    }
+
   }
